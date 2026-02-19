@@ -1,16 +1,42 @@
 package com.product;
-import java.io.*;
+
 import java.util.LinkedList;
 
-public class Category implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private Integer category_id;
+public class Category {
+    private int category_id;
     private String category;
     private String tag;
-    private Integer status;
+    private int status;
 
-    public Integer getCategory_id() {
+    public void setCategory_id(int category_id) {
+        if (category_id < 0) {
+            throw new IllegalArgumentException("id no puede ser nagativo.");
+        }
+        this.category_id = category_id;
+    }
+
+    public void setCategory(String category) {
+        if (category.equals("")) {
+            throw new IllegalArgumentException("nombre de categoria no puede estar vacio");
+        }
+        this.category = category;
+    }
+
+    public void setTag(String tag) {
+        if (tag.equals("")) {
+            throw new IllegalArgumentException("tag no puede estar vacio");
+        }
+        this.tag = tag;
+    }
+
+    public void setStatus(int status) {
+        if (status != 0 && status != 1) {
+            throw new IllegalArgumentException("status debe ser 1 o 0");
+        }
+        this.status = status;
+    }
+
+    public int getCategory_id() {
         return category_id;
     }
 
@@ -22,7 +48,7 @@ public class Category implements Serializable {
         return tag;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -32,10 +58,10 @@ public class Category implements Serializable {
     }
 
     public Category(Integer category_id, String category, String tag, Integer status) {
-        this.category_id = category_id;
-        this.category = category;
-        this.tag = tag;
-        this.status = status;
+        setCategory_id(category_id);
+        setCategory(category);
+        setTag(tag);
+        setStatus(status);
     }
 
     private static LinkedList<Category> registeredCategories = new LinkedList<>();
@@ -51,10 +77,10 @@ public class Category implements Serializable {
     public static void createCategory(Category newCategory) {
         // Verifica que id, category y tag sean unicos
         for (Category category : registeredCategories) {
-            if (category.getCategory_id().equals(newCategory.getCategory_id())
+            if (category.getCategory_id() == newCategory.getCategory_id()
                     || category.getCategory().equals(newCategory.getCategory())
                     || category.getTag().equals(newCategory.getTag())) {
-                System.out.println("id, category, tag tienen que ser unicos.");
+                System.out.println("'id', 'category' y 'tag' deben ser unicos.");
                 return;
             }
         }
@@ -63,52 +89,14 @@ public class Category implements Serializable {
         System.out.println("Categoria creada exitosamente.");
     }
 
-    public static void deleteCategory(Integer id) {
+    public static void deleteCategory(int id) {
         for (Category category : registeredCategories) {
-            if (category.getCategory_id().equals(id)) {
-                category.status = 0;
+            if (category.getCategory_id() == id) {
+                category.setStatus(0);
+                System.out.println("Categoria eliminada exitosamente");
+                return;
             }
         }
+        System.out.println("No se encontro la categoria");
     }
-
-    public static void saveCategories() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("lista"))) {
-            oos.writeObject(registeredCategories);
-            oos.close();
-        } catch (Exception e) {
-            System.out.println("Error al guardar.");
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static void loadCategories() {
-        File file = new File("lista");
-        if (!file.exists()) {
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("lista"))) {
-            registeredCategories = (LinkedList<Category>) ois.readObject();
-        } catch (Exception e) {
-            System.out.println("Error al cargar.");
-        }
-    }
-
-    public static void main(String[] args) {
-        loadCategories();
-        switch (args[0]) {
-            case "get":
-                getCategories();
-                break;
-            case "create":
-                createCategory(new Category(Integer.parseInt(args[1]), args[2], args[3], Integer.parseInt(args[4])));
-                saveCategories();
-                break;
-            case "delete":
-                deleteCategory(Integer.parseInt(args[1]));
-                saveCategories();
-                break;
-            default:
-                break;
-        }
-    }
-}      
+}
