@@ -1,15 +1,27 @@
 package com.product.api.entity;
 
 import java.util.LinkedList;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "category")
 public class Category {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonProperty("category_id")
+	@Column(name="category_id")
 	private int category_id;
+	@JsonProperty("category")
+	@Column(name="category")
 	private String category;
+	@JsonProperty("tag")
+	@Column(name="tag")
 	private String tag;
+	@JsonProperty("status")
+	@Column(name="status")
 	private int status;
 
 	public void setCategory_id(int category_id) {
