@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/category")
 public class CtrlProduct {
 	
 	@GetMapping
