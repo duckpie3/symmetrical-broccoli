@@ -13,7 +13,7 @@ public class Category {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@JsonProperty("category_id")
 	@Column(name="category_id")
-	private int category_id;
+	private Integer category_id;
 	@JsonProperty("category")
 	@Column(name="category")
 	private String category;
@@ -22,9 +22,9 @@ public class Category {
 	private String tag;
 	@JsonProperty("status")
 	@Column(name="status")
-	private int status;
+	private Integer status;
 
-	public void setCategory_id(int category_id) {
+	public void setCategory_id(Integer category_id) {
 		if (category_id < 0) {
 			throw new IllegalArgumentException("id no puede ser nagativo.");
 		}
@@ -45,14 +45,14 @@ public class Category {
 		this.tag = tag;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		if (status != 0 && status != 1) {
 			throw new IllegalArgumentException("status debe ser 1 o 0");
 		}
 		this.status = status;
 	}
 
-	public int getCategory_id() {
+	public Integer getCategory_id() {
 		return category_id;
 	}
 
@@ -64,7 +64,7 @@ public class Category {
 		return tag;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
@@ -97,7 +97,7 @@ public class Category {
 	public static void createCategory(Category newCategory) {
 		// Verifica que id, category y tag sean unicos
 		for (Category category : registeredCategories) {
-			if (category.getCategory_id() == newCategory.getCategory_id()
+			if (category.getCategory_id().equals(newCategory.getCategory_id())
 					|| category.getCategory().equals(newCategory.getCategory())
 					|| category.getTag().equals(newCategory.getTag())) {
 				System.out.println("'id', 'category' y 'tag' deben ser unicos.");
@@ -109,9 +109,9 @@ public class Category {
 		System.out.println("Categoria creada exitosamente.");
 	}
 
-	public static void deleteCategory(int id) {
+	public static void deleteCategory(Integer id) {
 		for (Category category : registeredCategories) {
-			if (category.getCategory_id() == id) {
+			if (category.getCategory_id().equals(id)) {
 				category.setStatus(0);
 				System.out.println("Categoria eliminada exitosamente");
 				return;
