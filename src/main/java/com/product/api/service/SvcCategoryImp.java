@@ -12,8 +12,6 @@ import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.ApiException;
 
-import jakarta.servlet.http.HttpSession;
-
 @Service
 public class SvcCategoryImp implements SvcCategory {
 	@Autowired
