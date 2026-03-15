@@ -71,40 +71,4 @@ public class Category {
 		setTag(tag);
 		setStatus(status);
 	}
-
-	private static LinkedList<Category> registeredCategories = new LinkedList<>();
-
-	public static void getCategories() {
-		if (registeredCategories.isEmpty()) {
-			System.out.println("No existen categorias registradas.");
-		} else {
-			System.out.println(registeredCategories);
-		}
-	}
-
-	public static void createCategory(Category newCategory) {
-		// Verifica que id, category y tag sean unicos
-		for (Category category : registeredCategories) {
-			if (category.getCategory_id() == newCategory.getCategory_id()
-					|| category.getCategory().equals(newCategory.getCategory())
-					|| category.getTag().equals(newCategory.getTag())) {
-				System.out.println("'id', 'category' y 'tag' deben ser unicos.");
-				return;
-			}
-		}
-		// Agrega categoria
-		registeredCategories.add(newCategory);
-		System.out.println("Categoria creada exitosamente.");
-	}
-
-	public static void deleteCategory(int id) {
-		for (Category category : registeredCategories) {
-			if (category.getCategory_id() == id) {
-				category.setStatus(0);
-				System.out.println("Categoria eliminada exitosamente");
-				return;
-			}
-		}
-		System.out.println("No se encontro la categoria");
-	}
 }
