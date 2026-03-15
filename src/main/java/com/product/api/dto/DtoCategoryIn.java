@@ -11,7 +11,7 @@ public class DtoCategoryIn {
 	private String category;
 	@JsonProperty("tag")
 	@NotNull(message = "El tag es obligatorio.")
-	private Integer tag;
+	private String tag;
 	
 	public String getCategory() {
 		return category;
@@ -19,10 +19,10 @@ public class DtoCategoryIn {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public Integer getTag() {
+	public String getTag() {
 		return tag;
 	}
-	public void setTag(Integer tag) {
+	public void setTag(String tag) {
 		this.tag = tag;
 	}
 }

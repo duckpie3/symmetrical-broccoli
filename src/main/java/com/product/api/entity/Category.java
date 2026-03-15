@@ -1,7 +1,5 @@
 package com.product.api.entity;
 
-import java.util.LinkedList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -10,18 +8,18 @@ import jakarta.persistence.*;
 @Table(name = "category")
 public class Category {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty("category_id")
-	@Column(name="category_id")
+	@Column(name = "category_id")
 	private Integer category_id;
 	@JsonProperty("category")
-	@Column(name="category")
+	@Column(name = "category")
 	private String category;
 	@JsonProperty("tag")
-	@Column(name="tag")
+	@Column(name = "tag")
 	private String tag;
 	@JsonProperty("status")
-	@Column(name="status")
+	@Column(name = "status")
 	private Integer status;
 
 	public void setCategory_id(Integer category_id) {
@@ -82,41 +80,5 @@ public class Category {
 		setCategory(category);
 		setTag(tag);
 		setStatus(status);
-	}
-
-	private static LinkedList<Category> registeredCategories = new LinkedList<>();
-
-	public static void getCategories() {
-		if (registeredCategories.isEmpty()) {
-			System.out.println("No existen categorias registradas.");
-		} else {
-			System.out.println(registeredCategories);
-		}
-	}
-
-	public static void createCategory(Category newCategory) {
-		// Verifica que id, category y tag sean unicos
-		for (Category category : registeredCategories) {
-			if (category.getCategory_id().equals(newCategory.getCategory_id())
-					|| category.getCategory().equals(newCategory.getCategory())
-					|| category.getTag().equals(newCategory.getTag())) {
-				System.out.println("'id', 'category' y 'tag' deben ser unicos.");
-				return;
-			}
-		}
-		// Agrega categoria
-		registeredCategories.add(newCategory);
-		System.out.println("Categoria creada exitosamente.");
-	}
-
-	public static void deleteCategory(Integer id) {
-		for (Category category : registeredCategories) {
-			if (category.getCategory_id().equals(id)) {
-				category.setStatus(0);
-				System.out.println("Categoria eliminada exitosamente");
-				return;
-			}
-		}
-		System.out.println("No se encontro la categoria");
 	}
 }
