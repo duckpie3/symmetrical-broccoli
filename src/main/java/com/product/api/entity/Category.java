@@ -1,6 +1,5 @@
 package com.product.api.entity;
 
-import java.util.LinkedList;
 import jakarta.persistence.*;
 
 @Entity
