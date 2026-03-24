@@ -70,5 +70,4 @@ public class Category {
 		setTag(tag);
 		setStatus(status);
 	}
-
 }
