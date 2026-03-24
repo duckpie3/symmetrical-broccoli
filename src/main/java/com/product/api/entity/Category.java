@@ -1,17 +1,28 @@
 package com.product.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "category")
 public class Category {
 	@Id
-	private int category_id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("category_id")
+	@Column(name = "category_id")
+	private Integer category_id;
+	@JsonProperty("category")
+	@Column(name = "category")
 	private String category;
+	@JsonProperty("tag")
+	@Column(name = "tag")
 	private String tag;
-	private int status;
+	@JsonProperty("status")
+	@Column(name = "status")
+	private Integer status;
 
-	public void setCategory_id(int category_id) {
+	public void setCategory_id(Integer category_id) {
 		if (category_id < 0) {
 			throw new IllegalArgumentException("id no puede ser nagativo.");
 		}
@@ -32,14 +43,14 @@ public class Category {
 		this.tag = tag;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		if (status != 0 && status != 1) {
 			throw new IllegalArgumentException("status debe ser 1 o 0");
 		}
 		this.status = status;
 	}
 
-	public int getCategory_id() {
+	public Integer getCategory_id() {
 		return category_id;
 	}
 
@@ -51,7 +62,7 @@ public class Category {
 		return tag;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
