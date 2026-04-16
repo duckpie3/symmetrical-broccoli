@@ -9,9 +9,14 @@ public class DBAccessException extends RuntimeException {
 	private DataAccessException exception;
 
 	public DBAccessException() {
-		
+
 	}
-		public DBAccessException(DataAccessException e) {
-			this.exception = e;
-		}
+
+	public DBAccessException(DataAccessException e) {
+		this.exception = e;
+	}
+
+	public DataAccessException getException() {
+		return exception;
+	}
 }
