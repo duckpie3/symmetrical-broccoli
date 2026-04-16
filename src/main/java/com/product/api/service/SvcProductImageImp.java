@@ -81,7 +81,35 @@ public class SvcProductImageImp implements SvcProductImage {
 
 	@Override
 	public void deleteProductImage(Integer productId, Integer productImageId) {
-		// TODO
+		try {
+			ProductImage productImage = repo.findById(productImageId)
+					.orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "El id de la imagen no existe"));
+
+			if (!productId.equals(productImage.getProductId())) {
+				throw new ApiException(HttpStatus.BAD_REQUEST, "La imagen no pertenece al producto indicado");
+			}
+
+			String imageUrl = productImage.getImage();
+			if (imageUrl != null && !imageUrl.isBlank()) {
+				String normalizedPath = imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl;
+				Path imagePath = Paths.get(uploadDir, normalizedPath);
+
+				boolean deleted = Files.deleteIfExists(imagePath);
+
+				if (!deleted) {
+					String fileName = Paths.get(normalizedPath).getFileName().toString();
+					Path fallbackPath = Paths.get(uploadDir, uploadImages, "customer", fileName);
+					Files.deleteIfExists(fallbackPath);
+				}
+			}
+
+			repo.delete(productImage);
+
+		} catch (DataAccessException e) {
+			throw new DBAccessException(e);
+		} catch (IOException e) {
+			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el archivo.");
+		}
 	}
 
 	private String[] readProductImageFiles(Integer product_id) {
