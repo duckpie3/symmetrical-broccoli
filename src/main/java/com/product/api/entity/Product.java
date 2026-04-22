@@ -14,7 +14,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_id")
-	private Integer product_id;
+	private Integer productId;
 	
 	@Column(name = "gtin")
 	private String gtin;
@@ -32,32 +32,32 @@ public class Product {
 	private Integer stock;
 
 	@Column(name = "category_id")
-	private Integer category_id;
+	private Integer categoryId;
 
 	@Column(name = "status")
 	private Integer status;
 	
 	public Product() {}
 	
-	public Product(Integer product_id, String gtin, String product, String description, Float price, Integer stock,
-			Integer category_id, Integer status) {
+	public Product(Integer productId, String gtin, String product, String description, Float price, Integer stock,
+			Integer categoryId, Integer status) {
 		super();
-		this.product_id = product_id;
+		this.productId = productId;
 		this.gtin = gtin;
 		this.product = product;
 		this.description = description;
 		this.price = price;
 		this.stock = stock;
-		this.category_id = category_id;
+		this.categoryId = categoryId;
 		this.status = status;
 	}
 
-	public Integer getProduct_id() {
-		return product_id;
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setProduct_id(Integer product_id) {
-		this.product_id = product_id;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getGtin() {
@@ -100,12 +100,12 @@ public class Product {
 		this.stock = stock;
 	}
 
-	public Integer getCategory_id() {
-		return category_id;
+	public Integer getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory_id(Integer category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public Integer getStatus() {

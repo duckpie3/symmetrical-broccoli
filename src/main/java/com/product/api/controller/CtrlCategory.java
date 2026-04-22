@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.product.api.dto.in.DtoCategoryIn;
 import com.product.api.dto.out.DtoCategoryOut;
-import com.product.api.entity.Category;
 import com.product.api.service.SvcCategory;
 
 import java.util.List;

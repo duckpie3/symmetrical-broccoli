@@ -6,7 +6,7 @@ import com.product.api.entity.Product;
 public class DtoProductListOut {
 	
 	@JsonProperty("product_id")
-	private Integer product_id;
+	private Integer productId;
 	
 	@JsonProperty("gtin")
 	private String gtin;
@@ -20,9 +20,9 @@ public class DtoProductListOut {
 	@JsonProperty("status")
 	private Integer status;
 
-	public DtoProductListOut(Integer product_id, String gtin, String product, Float price, Integer status) {
+	public DtoProductListOut(Integer productId, String gtin, String product, Float price, Integer status) {
 		super();
-		this.product_id = product_id;
+		this.productId = productId;
 		this.gtin = gtin;
 		this.product = product;
 		this.price = price;
@@ -31,19 +31,19 @@ public class DtoProductListOut {
 
 	public DtoProductListOut(Product product1) {
 		super();
-		this.product_id = product1.getProduct_id();
+		this.productId = product1.getProductId();
 		this.gtin = product1.getGtin();
 		this.product = product1.getProduct();
 		this.price = product1.getPrice();
 		this.status = product1.getStatus();
 	}
 
-	public Integer getProduct_id() {
-		return product_id;
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setProduct_id(Integer product_id) {
-		this.product_id = product_id;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getGtin() {

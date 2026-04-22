@@ -30,7 +30,7 @@ public class DtoCategoryOut {
 
     public DtoCategoryOut(Category category) {
         super();
-        this.categoryId = category.getCategory_id();
+        this.categoryId = category.getCategoryId();
         this.category = category.getCategory();
         this.tag = category.getTag();
         this.status = category.getStatus();

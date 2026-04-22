@@ -11,7 +11,7 @@ import jakarta.persistence.Transient;
 public class DtoProductOut {
 	@Id
 	@JsonProperty("product_id")
-	private Integer product_id;
+	private Integer productId;
 
 	@JsonProperty("gtin")
 	private String gtin;
@@ -36,7 +36,7 @@ public class DtoProductOut {
 
 	
 	public DtoProductOut(Product product) {
-		this.product_id = product.getProduct_id();
+		this.productId = product.getProductId();
 		this.gtin = product.getGtin();
 		this.product = product.getProduct();
 		this.description = product.getDescription();
@@ -46,12 +46,12 @@ public class DtoProductOut {
 		// this.images = product.getImages();
 	}
 
-	public Integer getProduct_id() {
-		return product_id;
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setProduct_id(Integer product_id) {
-		this.product_id = product_id;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getGtin() {

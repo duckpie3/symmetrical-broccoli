@@ -32,7 +32,7 @@ public class DtoProductIn {
 
 	@JsonProperty("category_id")
 	@NotNull(message="El category_id es obligatorio")
-	private Integer category_id;
+	private Integer categoryId;
 
 	public String getGtin() {
 		return gtin;
@@ -74,11 +74,11 @@ public class DtoProductIn {
 		this.stock = stock;
 	}
 
-	public Integer getCategory_id() {
-		return category_id;
+	public Integer getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory_id(Integer category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 }
