@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.product.api.dto.in.DtoCategoryIn;
+import com.product.api.dto.out.DtoCategoryOut;
 import com.product.api.entity.Category;
 import com.product.api.service.SvcCategory;
 
@@ -27,12 +28,12 @@ public class CtrlCategory {
 	SvcCategory svc;
 
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
+	public ResponseEntity<List<DtoCategoryOut>> findAll() {
 		return ResponseEntity.ok(svc.findAll());
 	}
 
 	@GetMapping("/active")
-	public ResponseEntity<List<Category>> findActive() {
+	public ResponseEntity<List<DtoCategoryOut>> findActive() {
 		return ResponseEntity.ok(svc.findActive());
 	}
 
