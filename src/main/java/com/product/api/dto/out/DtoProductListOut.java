@@ -1,6 +1,7 @@
 package com.product.api.dto.out;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.product.api.entity.Product;
 
 public class DtoProductListOut {
 	
@@ -26,6 +27,15 @@ public class DtoProductListOut {
 		this.product = product;
 		this.price = price;
 		this.status = status;
+	}
+
+	public DtoProductListOut(Product product1) {
+		super();
+		this.product_id = product1.getProduct_id();
+		this.gtin = product1.getGtin();
+		this.product = product1.getProduct();
+		this.price = product1.getPrice();
+		this.status = product1.getStatus();
 	}
 
 	public Integer getProduct_id() {

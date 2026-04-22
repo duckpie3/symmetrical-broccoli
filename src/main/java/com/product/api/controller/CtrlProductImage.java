@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/product/{id}/image")
 public class CtrlProductImage {
+
 	@Autowired
 	SvcProductImage svc;
 	
@@ -37,7 +38,7 @@ public class CtrlProductImage {
 	
 	@DeleteMapping("/{product_image_id}")
 	public ResponseEntity<String> deleteProductImage(@PathVariable Integer id, @PathVariable Integer product_image_id) {
-		return ResponseEntity.ok(null);
-		// TODO: return ResponseEntity.ok(svc.uploadProductImages(id, image))
+		svc.deleteProductImage(id, product_image_id);
+		return ResponseEntity.ok("La imagen ha sido eliminada.");
 	}
 }

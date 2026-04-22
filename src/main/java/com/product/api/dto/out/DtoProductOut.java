@@ -3,6 +3,7 @@ package com.product.api.dto.out;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.product.api.entity.Product;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
@@ -18,7 +19,7 @@ public class DtoProductOut {
 	@JsonProperty("product")
 	private String product;
 
-	@JsonProperty("product")
+	@JsonProperty("description")
 	private String description;
 
 	@JsonProperty("price")
@@ -32,6 +33,18 @@ public class DtoProductOut {
 
 	@Transient
 	private List<String> images;
+
+	
+	public DtoProductOut(Product product) {
+		this.product_id = product.getProduct_id();
+		this.gtin = product.getGtin();
+		this.product = product.getProduct();
+		this.description = product.getDescription();
+		this.price = product.getPrice();
+		this.stock = product.getStock();
+		// this.category = product.getCategory();
+		// this.images = product.getImages();
+	}
 
 	public Integer getProduct_id() {
 		return product_id;

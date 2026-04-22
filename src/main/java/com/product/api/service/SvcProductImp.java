@@ -27,32 +27,31 @@ public class SvcProductImp implements SvcProduct {
 	MapperProduct mapper;
 
 	@Override
-	public ResponseEntity<List<DtoProductListOut>> getProducts() {
+	public List<DtoProductListOut> getProducts() {
 		try {
 			List<Product> products = repo.findAll();
-			return new ResponseEntity<>(mapper.fromProductList(products), HttpStatus.OK);
+			return mapper.fromProductList(products);
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
 
 	@Override
-	public ResponseEntity<DtoProductOut> getProduct(Integer id) {
+	public DtoProductOut getProduct(Integer id) {
 		try {
 			validateProductId(id);
-			DtoProductOut product = repo.getProduct(id);
-			return new ResponseEntity<>(product, HttpStatus.OK);
+			Product product = repo.getProduct(id);
+			return new DtoProductOut(product);
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
 
 	@Override
-	public ResponseEntity<String> createProduct(DtoProductIn in) {
+	public void createProduct(DtoProductIn in) {
 		try {
 			Product product = mapper.fromDto(in);
 			repo.save(product);
-			return new ResponseEntity<>("El producto ha sido registrado", HttpStatus.CREATED);
 		} catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_product_gtin"))
 				throw new ApiException(HttpStatus.CONFLICT, "El gtin del producto ya está registrado");
@@ -66,12 +65,11 @@ public class SvcProductImp implements SvcProduct {
 	}
 
 	@Override
-	public ResponseEntity<String> updateProduct(Integer id, DtoProductIn in) {
+	public void updateProduct(Integer id, DtoProductIn in) {
 		try {
 			validateProductId(id);
 			Product product = mapper.fromDto(id, in);
 			repo.save(product);
-			return new ResponseEntity<>("El producto ha sido actualizado", HttpStatus.OK);
 		} catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_product_gtin"))
 				throw new ApiException(HttpStatus.CONFLICT, "El gtin del producto ya está registrado");
@@ -85,26 +83,24 @@ public class SvcProductImp implements SvcProduct {
 	}
 
 	@Override
-	public ResponseEntity<String> enableProduct(Integer id) {
+	public void enableProduct(Integer id) {
 		try {
 			validateProductId(id);
 			Product product = repo.findById(id).get();
 			product.setStatus(1);
 			repo.save(product);
-			return new ResponseEntity<>("El producto ha sido activado", HttpStatus.OK);
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
 
 	@Override
-	public ResponseEntity<String> disableProduct(Integer id) {
+	public void disableProduct(Integer id) {
 		try {
 			validateProductId(id);
 			Product product = repo.findById(id).get();
 			product.setStatus(0);
 			repo.save(product);
-			return new ResponseEntity<>("El producto ha sido desactivado", HttpStatus.OK);
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}

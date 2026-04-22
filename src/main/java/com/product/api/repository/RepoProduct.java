@@ -1,7 +1,10 @@
 package com.product.api.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.product.api.dto.out.DtoProductOut;
@@ -13,5 +16,5 @@ public interface RepoProduct extends JpaRepository<Product, Integer> {
 			+ "FROM product p "
 			+ "INNER JOIN category c ON c.category_id = p.category_id "
 			+ "WHERE p.product_id = :productId;", nativeQuery=true)
-	DtoProductOut getProduct(Integer productId);
+	Product getProduct(@Param("productId") Integer productId);
 }
