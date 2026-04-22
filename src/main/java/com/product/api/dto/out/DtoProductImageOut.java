@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 public class DtoProductImageOut {
-	@JsonProperty("product_id")
-	@NotNull(message="El product_id es obligatorio.")
-	private Integer productId;
+	@JsonProperty("product_image_id")
+	@NotNull(message="El product_image_id es obligatorio.")
+	private Integer productImageId;
 	
 	@JsonProperty("image")
 	@NotNull(message="La imagen es obligatoria.")
 	private String image;
 
-	public Integer getProductId() {
-		return productId;
+	public Integer getProductImageId() {
+		return productImageId;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProductImageId(Integer productImageId) {
+		this.productImageId = productImageId;
 	}
 
 	public String getImage() {

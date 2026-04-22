@@ -9,9 +9,7 @@ import com.product.api.entity.ProductImage;
 
 @Repository
 public interface RepoProductImage extends JpaRepository<ProductImage, Integer> {
-	
-//	@Query(value = "SELECT * FROM product_image WHERE product_id = :product_id AND status = 1;", nativeQuery=true)
-//	ProductImage[] 
+
    List<ProductImage> findByProductId(Integer productId);
 
 }

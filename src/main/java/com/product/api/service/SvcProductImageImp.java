@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.product.api.dto.in.DtoProductImageIn;
 import com.product.api.dto.out.DtoProductImageOut;
 import com.product.api.entity.ProductImage;
+import com.product.api.repository.RepoProduct;
 import com.product.api.repository.RepoProductImage;
 import com.product.exception.ApiException;
 import com.product.exception.DBAccessException;
@@ -27,6 +28,9 @@ public class SvcProductImageImp implements SvcProductImage {
 
 	@Autowired
 	RepoProductImage repo;
+
+	@Autowired
+	RepoProduct repoProduct;
 
 	@Value("${app.upload.dir}")
 	private String uploadDir;
@@ -42,7 +46,7 @@ public class SvcProductImageImp implements SvcProductImage {
 			// Genera un nombre único para la imagen (se asume extensión PNG)
 			String fileName = UUID.randomUUID().toString() + ".png";
 			// Construye la ruta completa donde se guardará la imagen
-			Path imagePath = Paths.get(uploadDir, "img", "customer", fileName);
+			Path imagePath = Paths.get(uploadDir, uploadImages, "product", fileName);
 			// Asegurarse de que el directorio exista
 			Files.createDirectories(imagePath.getParent());
 			// Escribir el archivo en el sistema de archivos
@@ -50,7 +54,7 @@ public class SvcProductImageImp implements SvcProductImage {
 			// Crear la entidad CustomerImage y guardar la URL en la base de datos
 			ProductImage productImage = new ProductImage();
 			productImage.setProductId(in.getProductId());
-			productImage.setImage("/product/" + fileName);
+			productImage.setImage("/" + uploadImages + "/product/" + fileName);
 			productImage.setStatus(1);
 			// Guardar la ruta de la imagen
 			repo.save(productImage);
@@ -66,12 +70,12 @@ public class SvcProductImageImp implements SvcProductImage {
 	public List<DtoProductImageOut> getProductImages(Integer productId) {
 		try {
 			validateProductId(productId);
-
-			String[] encodedImages = readProductImageFiles(productId);
+			List<ProductImage> productImages = repo.findByProductId(productId);
 			List<DtoProductImageOut> imageList = new ArrayList<>();
-			for (String image : encodedImages) {
+			for (ProductImage productImage : productImages) {
 				DtoProductImageOut dto = new DtoProductImageOut();
-				dto.setImage(image);
+				dto.setProductImageId(productImage.getProductImageId());
+				dto.setImage(readProductImageFile(productImage.getImage()));
 				imageList.add(dto);
 			}
 			return imageList;
@@ -95,14 +99,7 @@ public class SvcProductImageImp implements SvcProductImage {
 			if (imageUrl != null && !imageUrl.isBlank()) {
 				String normalizedPath = imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl;
 				Path imagePath = Paths.get(uploadDir, normalizedPath);
-
-				boolean deleted = Files.deleteIfExists(imagePath);
-
-				if (!deleted) {
-					String fileName = Paths.get(normalizedPath).getFileName().toString();
-					Path fallbackPath = Paths.get(uploadDir, uploadImages, "customer", fileName);
-					Files.deleteIfExists(fallbackPath);
-				}
+				Files.deleteIfExists(imagePath);
 			}
 
 			repo.delete(productImage);
@@ -114,47 +111,21 @@ public class SvcProductImageImp implements SvcProductImage {
 		}
 	}
 
-	private String[] readProductImageFiles(Integer product_id) {
+	private String readProductImageFile(String imageUrl) {
 		try {
-			// Obtiene las imagenes asociadas al producto
-			ProductImage[] productImages = repo.findByProductId(product_id).toArray(new ProductImage[0]);
-
-			// Si no hay imagenes, devolver un arreglo vacio
-			if (productImages == null || productImages.length == 0) {
-				return new String[0];
+			if (imageUrl == null || imageUrl.isBlank()) {
+				return "";
 			}
 
-			// Crear un arreglo para almacenar las imagenes codificadas en Base64
-			String[] imagesUrl = new String[productImages.length];
+			String normalizedPath = imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl;
+			Path path = Paths.get(uploadDir, normalizedPath);
 
-			// Iterar sobre las imagenes y procesarlas
-			for (int i = 0; i < productImages.length; i++) {
-				String imageUrl = productImages[i].getImage();
-
-				// Si la URL comienza con "/" la eliminamos para obtener la ruta relativa
-				if (imageUrl.startsWith("/")) {
-					imageUrl = imageUrl.substring(1);
-				}
-
-				// Construir el Path
-				Path imagePath = Paths.get(uploadDir, imageUrl);
-
-				// Verifica que el archivo exista
-				if (!Files.exists(imagePath)) {
-					imagesUrl[i] = ""; // Si el archivo no existe, asignar una cadena vacia
-					continue; // Continuar con la siguiente imagen
-				}
-
-				// Leer los bytes de la imagen y codificarlos a Base64
-				byte[] imageBytes = Files.readAllBytes(imagePath);
-				imagesUrl[i] = Base64.getEncoder().encodeToString(imageBytes); // Almacenar en el arreglo
+			if (!Files.exists(path)) {
+				return "";
 			}
 
-			// Devolver el arreglo con las imagenes codificadas
-			return imagesUrl;
-
-		} catch (DataAccessException e) {
-			throw new DBAccessException(e);
+			byte[] imageBytes = Files.readAllBytes(path);
+			return Base64.getEncoder().encodeToString(imageBytes);
 		} catch (IOException e) {
 			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer el archivo.");
 		}
@@ -162,7 +133,7 @@ public class SvcProductImageImp implements SvcProductImage {
 
 	private void validateProductId(Integer id) {
 		try {
-			if (repo.findById(id).isEmpty()) {
+			if (repoProduct.findById(id).isEmpty()) {
 				throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
 			}
 		} catch (DataAccessException e) {
