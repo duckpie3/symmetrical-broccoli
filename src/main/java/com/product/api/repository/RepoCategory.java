@@ -27,13 +27,13 @@ public interface RepoCategory extends JpaRepository<Category, Integer> {
 
 	@Modifying(clearAutomatically = true, flushAutomatically = true)
 	@Transactional
-	@Query(value = "UPDATE category SET category = :category, tag = :tag WHERE category_id = :category_id", nativeQuery = true)
-	void update(@Param("category_id") Integer category_id, @Param("category") String category,
+	@Query(value = "UPDATE category SET category = :category, tag = :tag WHERE category_id = :categoryId", nativeQuery = true)
+	void update(@Param("categoryId") Integer categoryId, @Param("category") String category,
 			@Param("tag") String tag);
 
 	@Modifying(clearAutomatically = true, flushAutomatically = true)
 	@Transactional
-	@Query(value = "UPDATE category SET status = :status WHERE category_id = :category_id", nativeQuery = true)
-	void updateStatus(@Param("category_id") Integer category_id, @Param("status") Integer status);
+	@Query(value = "UPDATE category SET status = :status WHERE category_id = :categoryId", nativeQuery = true)
+	void updateStatus(@Param("categoryId") Integer categoryId, @Param("status") Integer status);
 
 }

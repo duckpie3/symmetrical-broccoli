@@ -2,14 +2,14 @@ package com.product.api.service;
 
 import java.util.List;
 
-import com.product.api.dto.DtoCategoryIn;
-import com.product.api.entity.Category;
+import com.product.api.dto.in.DtoCategoryIn;
+import com.product.api.dto.out.DtoCategoryOut;
 
 public interface SvcCategory {
 
-	public List<Category> findAll();
+	public List<DtoCategoryOut> findAll();
 
-	public List<Category> findActive();
+	public List<DtoCategoryOut> findActive();
 
 	public void create(DtoCategoryIn in);
 

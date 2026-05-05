@@ -7,7 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.product.api.dto.DtoCategoryIn;
+import com.product.api.dto.in.DtoCategoryIn;
+import com.product.api.dto.out.DtoCategoryOut;
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.ApiException;
@@ -18,9 +19,10 @@ public class SvcCategoryImp implements SvcCategory {
 	RepoCategory repo;
 
 	@Override
-	public List<Category> findAll() {
+	public List<DtoCategoryOut> findAll() {
 		try {
-			return repo.findAll();
+			List<Category> categories = repo.findAll();
+			return categories.stream().map(c -> new DtoCategoryOut(c)).toList();
 		} catch (DataAccessException e) {
 			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al consultar la base de datos.");
 		}
@@ -28,9 +30,10 @@ public class SvcCategoryImp implements SvcCategory {
 	}
 
 	@Override
-	public List<Category> findActive() {
+	public List<DtoCategoryOut> findActive() {
 		try {
-			return repo.findByStatus(1);
+			List<Category> categories = repo.findByStatus(1);
+			return categories.stream().map(c -> new DtoCategoryOut(c)).toList();
 		} catch (DataAccessException e) {
 			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al consultar la base de datos.");
 		}

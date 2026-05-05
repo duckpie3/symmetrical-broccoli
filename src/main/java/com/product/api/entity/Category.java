@@ -11,7 +11,7 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty("category_id")
 	@Column(name = "category_id")
-	private Integer category_id;
+	private Integer categoryId;
 	@JsonProperty("category")
 	@Column(name = "category")
 	private String category;
@@ -22,11 +22,11 @@ public class Category {
 	@Column(name = "status")
 	private Integer status;
 
-	public void setCategory_id(Integer category_id) {
-		if (category_id < 0) {
+	public void setCategoryId(Integer categoryId) {
+		if (categoryId < 0) {
 			throw new IllegalArgumentException("id no puede ser nagativo.");
 		}
-		this.category_id = category_id;
+		this.categoryId = categoryId;
 	}
 
 	public void setCategory(String category) {
@@ -50,8 +50,8 @@ public class Category {
 		this.status = status;
 	}
 
-	public Integer getCategory_id() {
-		return category_id;
+	public Integer getCategoryId() {
+		return categoryId;
 	}
 
 	public String getCategory() {
@@ -68,15 +68,15 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return String.format("{%d, %s, %s, %d}", category_id, category, tag, status);
+		return String.format("{%d, %s, %s, %d}", categoryId, category, tag, status);
 	}
 
 	public Category() {
 		super();
 	}
 
-	public Category(Integer category_id, String category, String tag, Integer status) {
-		setCategory_id(category_id);
+	public Category(Integer categoryId, String category, String tag, Integer status) {
+		setCategoryId(categoryId);
 		setCategory(category);
 		setTag(tag);
 		setStatus(status);
