@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
 
                         // Solo ADMIN
-                        .requestMatchers(HttpMethod.GET, "/user").hasAuthority("Administrator")
+                        .requestMatchers(HttpMethod.GET, "/user/**").hasAuthority("Administrator")
 
                         // Cualquier otra necesita token
                         .anyRequest().authenticated()
