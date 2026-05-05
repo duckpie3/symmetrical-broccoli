@@ -11,6 +11,8 @@ import com.product.api.dto.in.DtoCategoryIn;
 import com.product.api.dto.out.DtoCategoryOut;
 import com.product.api.service.SvcCategory;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/category")
+@Tag(name = "Category", description = "Endpoints para la gestión de categorias.")
 public class CtrlCategory {
 
 	@Autowired

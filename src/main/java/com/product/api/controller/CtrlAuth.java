@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.Map;
 
 @RestController
+@Tag(name = "Authentication", description = "Endpoints para la gestión de autenticación.")
 public class CtrlAuth {
 
     @Autowired private AuthenticationManager authenticationManager;
