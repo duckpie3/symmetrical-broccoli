@@ -21,7 +21,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("DWB - API Product")
                         .version("0.0.1")
-                        .description("API para la gestión de productos para la tienda en línea FCiencias Store."));
+                        .description("API para la gestión de productos para una tienda en línea."));
     }
 
     @Bean
