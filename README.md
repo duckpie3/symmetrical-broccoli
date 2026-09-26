@@ -176,6 +176,33 @@ java -jar target/product-0.0.1-SNAPSHOT.jar
 
 The existing test is a Spring application-context smoke test and requires a working database connection. `package` also runs tests by default.
 
+## Docker
+
+Build the image (Java and Maven are supplied by the build stage):
+
+```sh
+docker build -t product-catalog-api .
+```
+
+Run against MySQL on your host, using the database credentials exported during local setup:
+
+```sh
+docker run --rm --name product-catalog-api \
+  -p 8080:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/dwb2026_2 \
+  -e SPRING_DATASOURCE_USERNAME \
+  -e SPRING_DATASOURCE_PASSWORD \
+  -v product-catalog-uploads:/app/uploads \
+  product-catalog-api
+```
+
+MySQL must accept connections from the container. For MySQL in another container, connect both containers to the same Docker network and use the database container's name as the JDBC hostname. `localhost` inside the application container refers to that container itself.
+
+The database schema must already exist. For a new local development database, add `-e SPRING_JPA_HIBERNATE_DDL_AUTO=update` before the image name. Uploaded images persist in the named volume across container replacements.
+
+The image uses a Java 21 JRE and runs as a non-root user. Image builds skip database-dependent tests; run `./mvnw test` separately with MySQL configured.
+
 ## Project structure
 
 ```text

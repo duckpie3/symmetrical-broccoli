@@ -1,0 +1,11 @@
+.git
+.agents
+.codex
+.idea
+.vscode
+target
+uploads
+.env
+.env.*
+*.sql
+*.log
